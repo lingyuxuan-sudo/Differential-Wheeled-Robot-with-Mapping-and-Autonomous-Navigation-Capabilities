@@ -30,12 +30,12 @@ class CoveragePathWithObstacleAvoidance:
     def get_path(self):
         return self.path
 
-# # 创建一个简单的10x10的空闲地图，1表示障碍物
-# grid_map = np.zeros((10, 10))
+# 创建一个简单的10x10的空闲地图，1表示障碍物
+grid_map = np.zeros((10, 10))
 
-# # 添加一些障碍物
-# grid_map[3:7, 4] = 1
-# grid_map[7, 2:5] = 1
+# 添加一些障碍物
+grid_map[3:7, 4] = 1
+grid_map[7, 2:5] = 1
 def generate_random_grid(size=20, obstacle_probability=0.2):
     """
     生成一个随机的grid，其中1表示障碍物，0表示空闲区域。
@@ -63,8 +63,8 @@ y_coords = [point[1] for point in path]
 plt.plot(y_coords, x_coords, marker='o', color='blue', linestyle='-', linewidth=2, markersize=5)
 
 # 显示路径点的顺序
-for i, (x, y) in enumerate(path):
-    plt.text(y, x, str(i+1), fontsize=12, ha='right')
+# for i, (x, y) in enumerate(path):
+#     plt.text(y, x, str(i+1), fontsize=12, ha='right')
 
 # 设置轴的标签和标题
 plt.xlabel("X Coordinate")
