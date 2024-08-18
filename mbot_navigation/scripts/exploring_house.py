@@ -118,7 +118,9 @@ def getpath():
                           stack.append((new_x, new_y))
 
       def get_path(self):
-          return self.path
+          height, width = grid_map.shape
+          origin =(-(width*0.4)/2,-(height*0.4)/2)
+          return self.path, origin
 
 
   coverage = CoveragePathWithObstacleAvoidance(grid_map)
@@ -143,11 +145,11 @@ def main():
   # target_list.append(Pose(Point(5.543, -4.779, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
   # target_list.append(Pose(Point(-5.543, 4.779, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
   # target_list.append(Pose(Point(-5.543, -4.779, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
-  grid_path = [(50, 50), (52, 50), (52, 48), (50, 48)]
-  grid_path = getpath()
+#   grid_path = [(50, 50), (52, 50), (52, 48), (50, 48)]
+  grid_path,origin = getpath()
   target_list = []
   resolution = 0.4
-  origin = (0,0)
+  
   for i, j in grid_path:
         x, y = convert_grid_to_world(i, j, resolution, origin)
         target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
