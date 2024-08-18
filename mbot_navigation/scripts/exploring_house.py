@@ -20,7 +20,9 @@ def convert_grid_to_world(i, j, resolution, origin):
 
 def getpath():
   # YAML 文件路径
-  yaml_path = r"mbot_navigation\maps\gmapping_save.yaml"
+  # yaml_path = r"mbot_navigation/maps/gmapping_save.yaml"
+  yaml_path = "/home/yuxuan/catkin_ws/src/mbot_navigation/maps/gmapping_save.yaml"
+
 
   # 读取 YAML 文件
   with open(yaml_path, 'r') as file:
@@ -124,7 +126,8 @@ def getpath():
 
 
   coverage = CoveragePathWithObstacleAvoidance(grid_map)
-  coverage.spiral_coverage(50, 50)
+  height, width = grid_map.shape
+  coverage.spiral_coverage(50,50)
   return coverage.get_path()   
 
 
