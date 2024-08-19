@@ -11,12 +11,12 @@ import os
 import yaml
 from PIL import Image
 import numpy as np
+from actionlib_msgs.msg import GoalStatus
 
 def convert_grid_to_world(i, j, resolution, origin):
-    x = i * resolution + origin[0]
-    y = j * resolution + origin[1]
+    x = i * resolution + origin[0] + 0.2
+    y = j * resolution + origin[1] + 0.2 
     return x, y
-
 
 def getpath():
   # YAML 文件路径
@@ -131,6 +131,46 @@ def getpath():
   return coverage.get_path()   
 
 
+def navigate_to_goals(grid_path, resolution, origin):
+    # 初始化目标列表
+    target_list = []
+    
+    # 转换每个网格点到世界坐标并生成目标点列表
+    for i, j in grid_path:
+        x, y = convert_grid_to_world(i, j, resolution, origin)
+        target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
+
+    # # 初始化 move_base 的 Action 客户端
+    # move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+    # move_base_client.wait_for_server()
+
+    # 遍历所有目标点
+    for i, target in enumerate(target_list):
+        start_time = rospy.Time.now()  
+        
+        goal = MoveBaseGoal()
+        goal.target_pose.pose = target
+        goal.target_pose.header.frame_id = 'map'
+        goal.target_pose.header.stamp = rospy.Time.now()
+        
+        rospy.loginfo("Going to goal {0}: {1}".format(i, str(target)))
+        
+        move_base_client.send_goal(goal)
+        
+        finished_within_time = move_base_client.wait_for_result(rospy.Duration(300))
+        
+        if not finished_within_time:
+            move_base_client.cancel_goal()
+            rospy.loginfo("Time out. Failed to reach goal {0}, moving to the next goal.".format(i))
+            continue  # 跳到下一个目标点
+        else:
+            running_time = (rospy.Time.now() - start_time).to_sec()
+            if move_base_client.get_state() == GoalStatus.SUCCEEDED:
+                rospy.loginfo("Reached goal {0} successfully, runtime: {1} sec".format(i, running_time))
+            else:
+                rospy.loginfo("Failed to reach goal {0}, moving to the next goal.".format(i))
+                continue  # 跳到下一个目标点
+
 
 
 def main():
@@ -153,33 +193,35 @@ def main():
   target_list = []
   resolution = 0.4
   
-  for i, j in grid_path:
-        x, y = convert_grid_to_world(i, j, resolution, origin)
-        target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
+  # for i, j in grid_path:
+  #       x, y = convert_grid_to_world(i, j, resolution, origin)
+  #       target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
 
-  for i, target in enumerate(target_list):
-    start_time = rospy.Time.now()  
+
+  navigate_to_goals(grid_path, resolution, origin)
+  # for i, target in enumerate(target_list):
+  #   start_time = rospy.Time.now()  
     
-    goal = MoveBaseGoal()
-    goal.target_pose.pose = target
-    goal.target_pose.header.frame_id = 'map'
-    goal.target_pose.header.stamp = rospy.Time.now()
+  #   goal = MoveBaseGoal()
+  #   goal.target_pose.pose = target
+  #   goal.target_pose.header.frame_id = 'map'
+  #   goal.target_pose.header.stamp = rospy.Time.now()
     
-    rospy.loginfo("going to {0} goal, {1}".format(i, str(target)))
+  #   rospy.loginfo("going to {0} goal, {1}".format(i, str(target)))
     
-    move_base_client.send_goal(goal)
+  #   move_base_client.send_goal(goal)
     
-    finished_within_time = move_base_client.wait_for_result(rospy.Duration(300))
+  #   finished_within_time = move_base_client.wait_for_result(rospy.Duration(300))
     
-    if not finished_within_time:
-      move_base_client.cancel_goal()
-      rospy.loginfo("time out, failed to goal")
-    else:
-      running_time = (rospy.Time.now() - start_time).to_sec()
-      if move_base_client.get_state() == GoalStatus.SUCCEEDED:
-        rospy.loginfo("go to {0} goal succeeded, run time: {1} sec".format(i, running_time))
-      else:
-        rospy.loginfo("goal failed")
+  #   if not finished_within_time:
+  #     move_base_client.cancel_goal()
+  #     rospy.loginfo("time out, failed to goal")
+  #   else:
+  #     running_time = (rospy.Time.now() - start_time).to_sec()
+  #     if move_base_client.get_state() == GoalStatus.SUCCEEDED:
+  #       rospy.loginfo("go to {0} goal succeeded, run time: {1} sec".format(i, running_time))
+  #     else:
+  #       rospy.loginfo("goal failed")
     
 
 if __name__ == "__main__":
