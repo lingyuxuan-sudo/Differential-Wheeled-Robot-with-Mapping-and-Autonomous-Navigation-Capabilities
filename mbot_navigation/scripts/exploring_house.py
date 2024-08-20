@@ -149,7 +149,8 @@ def navigate_to_goals(grid_path, resolution, origin):
     # 转换每个网格点到世界坐标并生成目标点列表
     for i, j in grid_path:
         x, y = convert_grid_to_world(i, j, resolution, origin)
-        target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.645, 0.764)))
+        target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.000, 1.000)))
+        # 不关注朝向
 
     # # 初始化 move_base 的 Action 客户端
     # move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
