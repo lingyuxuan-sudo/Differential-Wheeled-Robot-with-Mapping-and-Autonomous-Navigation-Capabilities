@@ -138,7 +138,7 @@ def getpath():
 
   coverage = CoveragePathWithObstacleAvoidance(grid_map)
   height, width = grid_map.shape
-  coverage.spiral_coverage(32,68)
+  coverage.spiral_coverage(68,32)
   return coverage.get_path()   
 
 
