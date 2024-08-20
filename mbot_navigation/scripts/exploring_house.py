@@ -138,7 +138,7 @@ def getpath():
 
   coverage = CoveragePathWithObstacleAvoidance(grid_map)
   height, width = grid_map.shape
-  coverage.spiral_coverage(68,32)
+  coverage.spiral_coverage(63,32)
   return coverage.get_path()   
 
 
@@ -152,10 +152,11 @@ def navigate_to_goals(grid_path, resolution, origin):
         target_list.append(Pose(Point(x, y, 0.000), Quaternion(0.000, 0.000, 0.000, 1.000)))
         # 不关注朝向
 
-    # # 初始化 move_base 的 Action 客户端
-    # move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-    # move_base_client.wait_for_server()
-
+    # 初始化 move_base 的 Action 客户端
+    move_base_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+    move_base_client.wait_for_server()
+    print("Target List: ", target_list)
+    
     # 遍历所有目标点
     for i, target in enumerate(target_list):
         start_time = rospy.Time.now()  

@@ -58,15 +58,26 @@ def downsample_grid_map(grid_map, robot_diameter, resolution):
             # 获取原地图中相应的区块
             block = grid_map[i*factor:(i+1)*factor, j*factor:(j+1)*factor]
             
-            # 如果区块中有障碍物（值为1），则新单元格标记为障碍物
-            if np.any(block == 1):
+            # 统计每个类别的数量
+            num_obstacle = np.sum(block == 1)
+            num_free = np.sum(block == 0)
+            num_unknown = np.sum(block == -1)
+            total_cells = block.size
+            # 对每个区块进行重采样
+
+            # 获取原地图中相应的区块
+            block = grid_map[i*factor:(i+1)*factor, j*factor:(j+1)*factor]
+            
+            if num_obstacle > 0:
                 new_grid_map[i, j] = 1
             # 如果区块中所有单元格都是空闲区域，则标记为空闲区域
-            elif np.all(block == 0):
+            elif num_free == total_cells:
                 new_grid_map[i, j] = 0
-            # 否则，标记为未知区域
-            else:
+            # 如果未知区域超过70%，则标记为未知区域，否则视为自由区域
+            elif num_unknown / total_cells > 0.9:
                 new_grid_map[i, j] = -1
+            else:
+                new_grid_map[i, j] = 0
     
     return new_grid_map
 
@@ -108,7 +119,7 @@ class CoveragePathWithObstacleAvoidance:
 
 
 coverage = CoveragePathWithObstacleAvoidance(grid_map)
-coverage.spiral_coverage(50, 50)
+coverage.spiral_coverage(32, 68)
 path = coverage.get_path()
 
 # 显示地图和路径
