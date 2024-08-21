@@ -14,14 +14,14 @@ import numpy as np
 from actionlib_msgs.msg import GoalStatus
 
 def convert_grid_to_world(i, j, resolution, origin):
-    x = i * resolution + origin[0] 
-    y = j * resolution + origin[1]  
+    x = i * resolution + origin[0] + 0.8
+    y = j * resolution + origin[1] + 0.8
     return x, y
 
 def getpath():
   # YAML 文件路径
-  # yaml_path = r"mbot_navigation/maps/gmapping_save.yaml"
-  yaml_path = "/home/yuxuan/catkin_ws/src/mbot_navigation/maps/gmapping_save.yaml"
+  yaml_path = r"mbot_navigation/maps/gmapping_save.yaml"
+  # yaml_path = "/home/yuxuan/catkin_ws/src/mbot_navigation/maps/gmapping_save.yaml"
 
 
   # 读取 YAML 文件
@@ -53,7 +53,7 @@ def getpath():
   # 生成栅格地图
   grid_map = generate_grid_map(image)
   # 打印或进一步处理栅格地图
-  print(grid_map)
+  # print(grid_map)
   def downsample_grid_map(grid_map, robot_diameter, resolution):
       # 计算重采样因子（新栅格单元格大小相对于原栅格单元格大小）
       factor = int(robot_diameter / resolution)
@@ -138,7 +138,7 @@ def getpath():
 
   coverage = CoveragePathWithObstacleAvoidance(grid_map)
   height, width = grid_map.shape
-  coverage.spiral_coverage(63,32)
+  coverage.spiral_coverage(32,68)
   return coverage.get_path()   
 
 
