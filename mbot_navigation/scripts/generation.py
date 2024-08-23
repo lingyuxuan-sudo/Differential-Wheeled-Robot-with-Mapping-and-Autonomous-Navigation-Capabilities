@@ -107,7 +107,7 @@ def validate_path(route, nodes, grid):
             return False
     return True
 
-grid_map = generate_random_grid(size=40, obstacle_probability=0.2)
+grid_map = generate_random_grid(size=15, obstacle_probability=0.2)
 G = extract_graph_from_grid(grid_map)
 nodes, distance_matrix = calculate_distance_matrix_from_graph(G)
 
