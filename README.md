@@ -1,6 +1,6 @@
-Differential Wheeled Robot with Mapping and Autonomous Navigation Capabilities
-Team members (G3): Mingyang Li,  Yuxuan Ling,  Zixuan He
-1.Introduction
+# Differential Wheeled Robot with Mapping and Autonomous Navigation Capabilities
+## Team members (G3): Mingyang Li,  Yuxuan Ling,  Zixuan He
+## 1.Introduction
 1.1 Project Overview:
 The main objective of our project was to design an autonomous mobile robot, specifically modeled as a robot vacuum cleaner, which focused on creating a robot that could autonomously navigate and clean a given environment, similar to commercially available robotic vacuums. This required the robot to map its surroundings, avoid obstacles, and ensure complete coverage of the area, all within a simulated environment built in Gazebo.
 1.2 Project Goals:
@@ -27,7 +27,7 @@ Our team was composed of several members, each contributing to different aspects
  2. Upgrade robot(version one) into a multifunctional one(version two) in order to well satisfy the actual application situations. 
  3. Test whether the new robot model function well in Gazebo physical simulation environment and can be operated successfully then modify the parameters of the robot.
 
-2.Robot Design and Description
+## 2.Robot Design and Description
 2.1 Wheel Configuration
 2.1.1 Differential Wheels:
 ●Type: Cylindrical
@@ -89,7 +89,7 @@ Brush wheel : 0.09 kg
                
       Figure 2.7: Mobbing unit illustrated in RVIZ                Figure 2.7: Mobbing unit illustrated in Solidworks 
 
-3.Project Objective and Robot Tasks
+## 3.Project Objective and Robot Tasks
 3.1 Project Specific Objectives:
 The main objective of our project was to design and implement a fully autonomous robot capable of navigating and covering an entire environment while avoiding obstacles. This required the development and integration of several advanced algorithms and systems, including SLAM (Simultaneous Localization and Mapping) and full coverage path planning. The robot needed to perform in a simulated environment created in Gazebo, which closely mimics real-world scenarios.
 3.2 Assigned Tasks for the Robot:
@@ -108,7 +108,7 @@ During the implementation phase, several challenges arose that impacted the perf
 2.Poor Algorithm Performance with Complex Obstacles : The full coverage path planning algorithm struggled when encountering complex or irregularly shaped obstacles. The robot would either spend too much time navigating around these obstacles or fail to fully cover areas near them. Improvements were made by tweaking the path planning algorithm to better handle these scenarios.
 3.Correlation Between Downsampled Grid Map and Real-World Environment : Translating the downsampled grid map used by the planning algorithm into effective real-world navigation proved challenging. The robot sometimes misinterpreted the map, leading to less efficient coverage. By enhancing the mapping resolution and improving grid-to-world alignment, this issue was largely resolved.
 
-4.Motion Planning and Control Methods
+## 4.Motion Planning and Control Methods
 4.1 Overview of the Motion Planning Algorithm:
 In our project, the primary motion planning strategy was based on the full coverage path planning algorithm. The goal was to ensure that the robot could cover the entire area of a room efficiently while avoiding obstacles. The algorithm we developed focused on generating an optimal sequence of target points that the robot needed to visit to achieve complete coverage. This sequence was calculated using a downsampled grid map, where each grid cell was approximately the size of the robot itself. The robot would start from any unvisited cell and systematically visit all unvisited cells, ensuring no area was left uncovered. The traversal was similar to a depth-first search (DFS) approach, where the robot would push the starting point onto a stack, visit the neighboring unvisited points, and continue until all points were visited and the robot returned to the starting position.
 4.2 Control Methods for Movement and Task Execution:
@@ -119,7 +119,7 @@ The process of full coverage was as follows:
 3.Obstacle Handling: If the robot encountered an obstacle during its journey to a target point, move_base adjusted the path dynamically, allowing the robot to bypass the obstacle and continue towards its goal.
 4.Return to Start: After visiting all target points, the robot navigated back to its starting position, completing the full coverage cycle.
 
-5.Programming/Coding Process
+## 5.Programming/Coding Process
 5.1 Code Development Structure and Main Script Descriptions:
 The development of our project was structured around a set of ROS nodes and launch files, each serving specific functions to achieve autonomous navigation, SLAM, and motion planning. The key scripts and launch files include:
 5.1.1 mbot_teleop.py
@@ -161,7 +161,7 @@ Figure 5.6  Partial Display of the hector_slam.launch
 ●Gazebo: The primary simulation environment, Gazebo was used to create a virtual world where the robot could be tested. We defined the environment using .world and .sdf files, which included the layout of rooms, walls, and obstacles. These files provided a realistic testing ground for our algorithms, closely mimicking the conditions the robot would face in a real-world scenario.
 5.5 Problem-Solving in the Coding Process:
 
-6.Learning Outcomes
+## 6.Learning Outcomes
 6.1 Acquired Knowledge and Technical Skills:
 Throughout the course of this project, team members gained extensive knowledge and hands-on experience in several key areas of robotics and software engineering:
 1.ROS (Robot Operating System): We developed a strong understanding of ROS, including how to configure and launch nodes, manage topics, services, and parameters, and how to use various ROS tools like rviz for visualization and rosbag for data recording.
@@ -183,7 +183,7 @@ The project posed several challenges, which provided valuable problem-solving an
 2.Integration of SLAM with Autonomous Navigation: We successfully integrated SLAM with the move_base package, allowing the robot to navigate dynamically within an environment, even as it simultaneously mapped that environment.
 3.Simulation Environment Setup: We established a robust simulation environment in Gazebo that accurately represented real-world conditions, allowing us to test and validate our algorithms under various scenarios.
 
-7.Conclusion and Future Work
+## 7.Conclusion and Future Work
 7.1 Conclusion
 ●Verification of SLAM algorithm
 1.Gmapping algorithm (2 Inputs: Data from Laser Scan and Odometry)
@@ -261,7 +261,7 @@ This project successfully demonstrated the design and implementation of a differ
 2.Advanced Path Planning Algorithms: Future work could explore more sophisticated path planning algorithms, such as those utilizing machine learning or artificial intelligence, to optimize the robot's navigation and obstacle avoidance strategies, particularly in complex or dynamic environments.
 3.Multi-Robot Systems: Expanding the project to include multiple robots working collaboratively could provide insights into distributed SLAM, multi-robot coordination, and cooperative coverage strategies, further pushing the boundaries of autonomous robotics.
 
-8.Supporting Materials
+## 8.Supporting Materials
 
 
 
